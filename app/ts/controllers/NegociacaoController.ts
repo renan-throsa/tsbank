@@ -1,9 +1,10 @@
 import { NegociacoesView, MensagemView } from '../views/index';
 import { Negociacoes, Negociacao, NegociacaoParcial } from '../models/index';
 import { domInject, throttle } from '../decorators/index';
-import { DateHelper, imprime } from '../helpers/index';
+import { DateHelper } from '../helpers/index';
 import { NegociacaoService } from '../services/index'
-
+import { IProxy } from '../decorators/IProxy';
+import { Proxy } from '../decorators/Proxy';
 
 export class NegociacaoController {
 
@@ -14,24 +15,16 @@ export class NegociacaoController {
     private _inputQuantidade: JQuery;
     @domInject('#valor')
     private _inputValor: JQuery;
-    private _negociacoes: Negociacoes;
+    private _negociacoes: IProxy;
     private _negociacoesView: NegociacoesView;
     private _mensagemView: MensagemView;
     private _negociacaoService: NegociacaoService;
 
     constructor() {
 
-        this._negociacoes = new Proxy(new Negociacoes(), {
-            get: function (target: any, prop: string, receiver) {
-                if (['adiciona', 'esvazia'].includes(prop) && typeof (target[prop] == typeof (Function))) {
-                    return function () {
-                        console.log(`interceptando ${prop}`)
-                        Reflect.apply(target[prop], target, arguments);
-                    }
-                }
-                return Reflect.get(target, prop, receiver);
-            }
-        });
+        this._negociacoes = new Proxy(new Negociacoes(), (model: IProxy) => {
+            this._negociacoesView.update(model)
+        })
         this._negociacoesView = new NegociacoesView('#negociacoesView');
         this._negociacoesView.update(this._negociacoes);
         this._mensagemView = new MensagemView('#mensagemView');
@@ -58,7 +51,6 @@ export class NegociacaoController {
         this._negociacoes.adiciona(negociacao)
         this._mensagemView.update('Negociação adicionada com sucesso.');
         this._limpaFormulario()
-        imprime(negociacao, this._negociacoes);
     }
 
     apaga() {

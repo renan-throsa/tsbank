@@ -1,10 +1,11 @@
 import { View } from './View'
 import { Negociacoes } from '../models/Negociacoes'
 import { DateHelper } from '../helpers/index';
+import { IProxy } from '../decorators/IProxy';
 
-export class NegociacoesView extends View<Negociacoes> {
+export class NegociacoesView extends View<IProxy> {
 
-    template(model: Negociacoes): string {
+    template(model: IProxy): string {
         return `
             <table class="table table-hover table-bordered">
                 <thead>
