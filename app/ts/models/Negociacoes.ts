@@ -1,7 +1,9 @@
 import { Negociacao, Imprimivel } from './index'
 
 export class Negociacoes implements Imprimivel {
+
     private _negociacoes: Array<Negociacao> = []
+
 
     adiciona(negociacao: Negociacao) {
         this._negociacoes.push(negociacao)
@@ -9,6 +11,10 @@ export class Negociacoes implements Imprimivel {
 
     paraArray(): Negociacao[] {
         return ([] as Negociacao[]).concat(this._negociacoes);
+    }
+
+    esvazia() {
+        this._negociacoes = [];
     }
 
     paraTexto(): void {

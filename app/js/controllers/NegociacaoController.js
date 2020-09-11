@@ -29,7 +29,17 @@ System.register(["../views/index", "../models/index", "../decorators/index", "..
         execute: function () {
             NegociacaoController = class NegociacaoController {
                 constructor() {
-                    this._negociacoes = new index_2.Negociacoes();
+                    this._negociacoes = new Proxy(new index_2.Negociacoes(), {
+                        get: function (target, prop, receiver) {
+                            if (['adiciona', 'esvazia'].includes(prop) && typeof (target[prop] == typeof (Function))) {
+                                return function () {
+                                    console.log(`interceptando ${prop}`);
+                                    Reflect.apply(target[prop], target, arguments);
+                                };
+                            }
+                            return Reflect.get(target, prop, receiver);
+                        }
+                    });
                     this._negociacoesView = new index_1.NegociacoesView('#negociacoesView');
                     this._negociacoesView.update(this._negociacoes);
                     this._mensagemView = new index_1.MensagemView('#mensagemView');
@@ -44,9 +54,13 @@ System.register(["../views/index", "../models/index", "../decorators/index", "..
                     }
                     const negociacao = new index_2.Negociacao(data, parseInt(this._inputQuantidade.val()), parseFloat(this._inputValor.val()));
                     this._negociacoes.adiciona(negociacao);
-                    this._negociacoesView.update(this._negociacoes);
                     this._mensagemView.update('Negociação adicionada com sucesso.');
+                    this._limpaFormulario();
                     index_4.imprime(negociacao, this._negociacoes);
+                }
+                apaga() {
+                    this._negociacoes.esvazia();
+                    this._mensagemView.update('Negociações apagadas com sucesso.');
                 }
                 importarDados() {
                     function isOK(res) {
@@ -60,11 +74,15 @@ System.register(["../views/index", "../models/index", "../decorators/index", "..
                     this._negociacaoService.obterNegociacoes(isOK)
                         .then(negociacoes => {
                         negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
-                        this._negociacoesView.update(this._negociacoes);
                     });
                 }
                 _ehDiaUtil(data) {
                     return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;
+                }
+                _limpaFormulario() {
+                    this._inputData.val("");
+                    this._inputQuantidade.val(1);
+                    this._inputValor.val(0);
                 }
             };
             __decorate([

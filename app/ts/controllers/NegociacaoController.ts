@@ -18,13 +18,26 @@ export class NegociacaoController {
     private _negociacoesView: NegociacoesView;
     private _mensagemView: MensagemView;
     private _negociacaoService: NegociacaoService;
+
     constructor() {
-        this._negociacoes = new Negociacoes();
+
+        this._negociacoes = new Proxy(new Negociacoes(), {
+            get: function (target: any, prop: string, receiver) {
+                if (['adiciona', 'esvazia'].includes(prop) && typeof (target[prop] == typeof (Function))) {
+                    return function () {
+                        console.log(`interceptando ${prop}`)
+                        Reflect.apply(target[prop], target, arguments);
+                    }
+                }
+                return Reflect.get(target, prop, receiver);
+            }
+        });
         this._negociacoesView = new NegociacoesView('#negociacoesView');
         this._negociacoesView.update(this._negociacoes);
         this._mensagemView = new MensagemView('#mensagemView');
         this._negociacaoService = new NegociacaoService();
     }
+
 
     adiciona(event: Event) {
 
@@ -32,7 +45,6 @@ export class NegociacaoController {
 
         let data = DateHelper.textoParaData(<string>this._inputData.val())
         if (!this._ehDiaUtil(data)) {
-
             this._mensagemView.update('Somente negociações em dias úteis, por favor!');
             return
         }
@@ -44,9 +56,14 @@ export class NegociacaoController {
 
 
         this._negociacoes.adiciona(negociacao)
-        this._negociacoesView.update(this._negociacoes);
         this._mensagemView.update('Negociação adicionada com sucesso.');
+        this._limpaFormulario()
         imprime(negociacao, this._negociacoes);
+    }
+
+    apaga() {
+        this._negociacoes.esvazia();
+        this._mensagemView.update('Negociações apagadas com sucesso.');
     }
 
     @throttle()
@@ -65,7 +82,6 @@ export class NegociacaoController {
             .then(negociacoes => {
                 negociacoes.forEach(negociacao =>
                     this._negociacoes.adiciona(negociacao));
-                this._negociacoesView.update(this._negociacoes);
             });
 
     }
@@ -73,6 +89,12 @@ export class NegociacaoController {
     private _ehDiaUtil(data: Date) {
 
         return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;
+    }
+
+    private _limpaFormulario(): void {
+        this._inputData.val("");
+        this._inputQuantidade.val(1);
+        this._inputValor.val(0)
     }
 }
 
