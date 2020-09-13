@@ -1,5 +1,5 @@
 import { NegociacoesView, MensagemView } from '../views/index';
-import { Negociacoes, Negociacao, NegociacaoParcial, Mensagem } from '../models/index';
+import { Negociacoes, Negociacao, Mensagem } from '../models/index';
 import { domInject, throttle } from '../decorators/index';
 import { DateHelper } from '../helpers/index';
 import { NegociacaoService } from '../services/index'
@@ -12,7 +12,6 @@ import { ProxyMensagem } from '../helpers/ProxyMensagem';
 // https://libraries.io/npm/@types%2Fjquery/3.3.36
 
 export class NegociacaoController {
-
 
     @domInject('#data')
     private _inputData: JQuery;
@@ -72,7 +71,6 @@ export class NegociacaoController {
     importarDados() {
 
         function isOK(res: Response) {
-
             if (res.ok) {
                 return res;
             } else {
@@ -80,11 +78,17 @@ export class NegociacaoController {
             }
         }
 
-        this._negociacaoService.obterNegociacoes(isOK)
-            .then(negociacoes => {
-                negociacoes.forEach(negociacao =>
-                    this._negociacoes.adiciona(negociacao));
-            });
+        Promise.all([
+            this._negociacaoService.obterNegociacoesDaSemana(isOK),
+            this._negociacaoService.obterNegociacoesDaSemanaPassada(isOK),
+            this._negociacaoService.obterNegociacoesDaRetrasada(isOK)
+        ]).then(negociacoes => {
+            negociacoes
+                .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
+                .forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                this._mensagem.setTexto("Negociações importadas com sucesso.")
+        });
+
 
     }
 
@@ -96,7 +100,7 @@ export class NegociacaoController {
     private _limpaFormulario(): void {
         this._inputData.val("");
         this._inputQuantidade.val(1);
-        this._inputValor.val(0)
+        this._inputValor.val(0.0)
     }
 }
 

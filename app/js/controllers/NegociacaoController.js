@@ -66,9 +66,15 @@ System.register(["../views/index", "../models/index", "../decorators/index", "..
                             throw new Error(res.statusText);
                         }
                     }
-                    this._negociacaoService.obterNegociacoes(isOK)
-                        .then(negociacoes => {
-                        negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                    Promise.all([
+                        this._negociacaoService.obterNegociacoesDaSemana(isOK),
+                        this._negociacaoService.obterNegociacoesDaSemanaPassada(isOK),
+                        this._negociacaoService.obterNegociacoesDaRetrasada(isOK)
+                    ]).then(negociacoes => {
+                        negociacoes
+                            .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
+                            .forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                        this._mensagem.setTexto("Negociações importadas com sucesso.");
                     });
                 }
                 _ehDiaUtil(data) {
@@ -77,7 +83,7 @@ System.register(["../views/index", "../models/index", "../decorators/index", "..
                 _limpaFormulario() {
                     this._inputData.val("");
                     this._inputQuantidade.val(1);
-                    this._inputValor.val(0);
+                    this._inputValor.val(0.0);
                 }
             };
             __decorate([

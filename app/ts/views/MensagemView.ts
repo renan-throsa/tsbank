@@ -1,3 +1,4 @@
+import { Mensagem } from '../models/index';
 import { View } from './View'
 
 export class MensagemView extends View<Mensagem> {

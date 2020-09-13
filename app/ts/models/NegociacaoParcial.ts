@@ -1,5 +1,6 @@
 export interface NegociacaoParcial {
-    vezes: number;
-    montante: number;
+    data: Date;
+    quantidade: number;
+    valor: number;
 
 }
