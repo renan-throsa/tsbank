@@ -1,4 +1,4 @@
-System.register(["./DateHelper", "./Utils"], function (exports_1, context_1) {
+System.register(["./DateHelper"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function exportStar_1(m) {
@@ -12,9 +12,6 @@ System.register(["./DateHelper", "./Utils"], function (exports_1, context_1) {
         setters: [
             function (DateHelper_1_1) {
                 exportStar_1(DateHelper_1_1);
-            },
-            function (Utils_1_1) {
-                exportStar_1(Utils_1_1);
             }
         ],
         execute: function () {

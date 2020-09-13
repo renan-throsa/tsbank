@@ -1,10 +1,15 @@
 import { NegociacoesView, MensagemView } from '../views/index';
-import { Negociacoes, Negociacao, NegociacaoParcial } from '../models/index';
+import { Negociacoes, Negociacao, NegociacaoParcial, Mensagem } from '../models/index';
 import { domInject, throttle } from '../decorators/index';
 import { DateHelper } from '../helpers/index';
 import { NegociacaoService } from '../services/index'
-import { IProxy } from '../decorators/IProxy';
-import { Proxy } from '../decorators/Proxy';
+import { IProxyNegociacao } from '../helpers/IProxyNegociacao';
+import { ProxyNegociacao } from '../helpers/ProxyNegociacao';
+import { IProxyMensagem } from '../helpers/IProxyMensagem';
+import { ProxyMensagem } from '../helpers/ProxyMensagem';
+
+//npm install @types/jquery@3.3.36 "typescript": "^3.7.5"
+// https://libraries.io/npm/@types%2Fjquery/3.3.36
 
 export class NegociacaoController {
 
@@ -15,22 +20,27 @@ export class NegociacaoController {
     private _inputQuantidade: JQuery;
     @domInject('#valor')
     private _inputValor: JQuery;
-    private _negociacoes: IProxy;
+    private _negociacoes: IProxyNegociacao;
     private _negociacoesView: NegociacoesView;
+    private _mensagem: IProxyMensagem;
     private _mensagemView: MensagemView;
     private _negociacaoService: NegociacaoService;
 
     constructor() {
 
-        this._negociacoes = new Proxy(new Negociacoes(), (model: IProxy) => {
-            this._negociacoesView.update(model)
-        })
-        this._negociacoesView = new NegociacoesView('#negociacoesView');
-        this._negociacoesView.update(this._negociacoes);
-        this._mensagemView = new MensagemView('#mensagemView');
         this._negociacaoService = new NegociacaoService();
-    }
 
+        this._negociacoesView = new NegociacoesView('#negociacoesView');
+        this._negociacoes = new ProxyNegociacao(new Negociacoes(),
+            (model: IProxyNegociacao) => { this._negociacoesView.update(model); }
+        );
+
+        this._mensagemView = new MensagemView('#mensagemView');
+        this._mensagem = new ProxyMensagem(new Mensagem(),
+            (model: Mensagem) => { this._mensagemView.update(model) }
+        );
+
+    }
 
     adiciona(event: Event) {
 
@@ -38,7 +48,7 @@ export class NegociacaoController {
 
         let data = DateHelper.textoParaData(<string>this._inputData.val())
         if (!this._ehDiaUtil(data)) {
-            this._mensagemView.update('Somente negociações em dias úteis, por favor!');
+            this._mensagem.setTexto('Somente negociações em dias úteis, por favor!');
             return
         }
 
@@ -49,13 +59,13 @@ export class NegociacaoController {
 
 
         this._negociacoes.adiciona(negociacao)
-        this._mensagemView.update('Negociação adicionada com sucesso.');
+        this._mensagem.setTexto("Negociação adicionada com sucesso");
         this._limpaFormulario()
     }
 
     apaga() {
         this._negociacoes.esvazia();
-        this._mensagemView.update('Negociações apagadas com sucesso.');
+        this._mensagem.setTexto("Negociaçoes apagadas com sucesso");
     }
 
     @throttle()
