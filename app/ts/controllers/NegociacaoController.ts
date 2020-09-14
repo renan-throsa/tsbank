@@ -1,17 +1,7 @@
-import { NegociacoesView, MensagemView } from '../views/index';
-import { Negociacoes, Negociacao, Mensagem } from '../models/index';
-import { domInject, throttle } from '../decorators/index';
-import { DateHelper } from '../helpers/index';
-import { NegociacaoService } from '../services/index'
-import { IProxyNegociacao } from '../helpers/IProxyNegociacao';
-import { ProxyNegociacao } from '../helpers/ProxyNegociacao';
-import { IProxyMensagem } from '../helpers/IProxyMensagem';
-import { ProxyMensagem } from '../helpers/ProxyMensagem';
-
 //npm install @types/jquery@3.3.36 "typescript": "^3.7.5"
 // https://libraries.io/npm/@types%2Fjquery/3.3.36
 
-export class NegociacaoController {
+class NegociacaoController {
 
     @domInject('#data')
     private _inputData: JQuery;
@@ -24,9 +14,10 @@ export class NegociacaoController {
     private _mensagem: IProxyMensagem;
     private _mensagemView: MensagemView;
     private _negociacaoService: NegociacaoService;
+    private _ordemAtual: string;
 
     constructor() {
-
+        this._ordemAtual = ''
         this._negociacaoService = new NegociacaoService();
 
         this._negociacoesView = new NegociacoesView('#negociacoesView');
@@ -67,8 +58,22 @@ export class NegociacaoController {
         this._mensagem.setTexto("Negociaçoes apagadas com sucesso");
     }
 
+    ordena(coluna: string) {
+        if (this._ordemAtual == coluna) {
+            this._negociacoes.ordena(function (a, b) {
+                return b[coluna] - a[coluna]
+            });
+        } else {
+            this._negociacoes.ordena(function (a, b) {
+                return a[coluna] - b[coluna]
+            });
+        }
+        this._ordemAtual = coluna;
+
+    }
+
     @throttle()
-    importarDados() {
+    importa() {
 
         function isOK(res: Response) {
             if (res.ok) {
@@ -86,10 +91,8 @@ export class NegociacaoController {
             negociacoes
                 .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
                 .forEach(negociacao => this._negociacoes.adiciona(negociacao));
-                this._mensagem.setTexto("Negociações importadas com sucesso.")
+            this._mensagem.setTexto("Negociações importadas com sucesso.")
         });
-
-
     }
 
     private _ehDiaUtil(data: Date) {

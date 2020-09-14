@@ -1,6 +1,8 @@
-import { Negociacao, Imprimivel } from './index'
+class Negociacoes {
 
-export class Negociacoes implements Imprimivel {
+    ordena(criteria: SortingFunction) {
+        this._negociacoes.sort(criteria);        
+    }
 
     private _negociacoes: Array<Negociacao> = []
 
@@ -16,10 +18,5 @@ export class Negociacoes implements Imprimivel {
     esvazia() {
         this._negociacoes = [];
     }
-
-    paraTexto(): void {
-
-        console.log('-- paraTexto --');
-        console.log(JSON.stringify(this._negociacoes));
-    }
+ 
 }

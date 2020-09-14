@@ -1,4 +1,4 @@
-export interface IProxyMensagem {
+interface IProxyMensagem {
     getTexto(): string
     setTexto(texto: string): void
 }

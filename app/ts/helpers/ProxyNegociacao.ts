@@ -1,19 +1,21 @@
-import { Negociacao, Negociacoes } from "../models/index";
-import { IProxyNegociacao } from "./IProxyNegociacao";
-
-export class ProxyNegociacao implements IProxyNegociacao {
+class ProxyNegociacao implements IProxyNegociacao {
 
     constructor(private _list: Negociacoes, private _armadilha: Function) {
         this._armadilha(this);
     }
 
+    ordena(criteria: SortingFunction): void {        
+        this._list.ordena(criteria);
+        this._armadilha(this)
+    }
+
     public adiciona(negociacao: Negociacao): void {
         this._list.adiciona(negociacao)
-        this._armadilha(this)        
+        this._armadilha(this)
     }
     public esvazia(): void {
         this._list.esvazia();
-        this._armadilha(this)        
+        this._armadilha(this)
     }
 
     public paraArray(): Negociacao[] {

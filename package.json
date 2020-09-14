@@ -1,5 +1,4 @@
-{
-  "homepage": "https://renancbcc.github.io/tsbank/",
+{  
   "name": "tsbank",
   "version": "1.0.0",
   "description": "Aplicação para aprendizagem de typescript.",
@@ -7,9 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
-    "watch": "tsc -w",
-    "server": "lite-server --baseDir=app",
-    "start": "concurrently \"npm run watch\" \"npm run server\"",
+    "start": "tsc -w",
     "predeply": "npm run compile",
     "deploy": "gh-pages -d app"
   },

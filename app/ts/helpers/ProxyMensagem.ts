@@ -1,7 +1,4 @@
-import { Mensagem } from "../models/index";
-import { IProxyMensagem } from "./IProxyMensagem";
-
-export class ProxyMensagem implements IProxyMensagem {
+class ProxyMensagem implements IProxyMensagem {
 
     constructor(private _mensagem: Mensagem, private _armadilha: Function) { }
 

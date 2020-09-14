@@ -1,4 +1,4 @@
-export class Mensagem {
+class Mensagem {
 
     constructor(private _texto: string = '') { }
 

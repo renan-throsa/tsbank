@@ -4,8 +4,7 @@
         "noImplicitAny": true,
         "removeComments": true,
         "strictNullChecks": true,
-        "experimentalDecorators": true,
-        "module": "system",
+        "experimentalDecorators": true,        
         "target": "es6",
         "outDir": "app/js"
     },

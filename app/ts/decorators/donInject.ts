@@ -1,4 +1,4 @@
-export function domInject(seletor: string) {
+function domInject(seletor: string) {
 
     return function (target: object, key: string) {
 

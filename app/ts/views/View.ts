@@ -1,5 +1,4 @@
-
-export abstract class View<T> {
+ abstract class View<T> {
 
     private _elemento: JQuery;
 
