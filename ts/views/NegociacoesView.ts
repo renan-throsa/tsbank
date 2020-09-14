@@ -1,18 +1,14 @@
-import { View } from './View'
-import { Negociacoes } from '../models/Negociacoes'
-import { DateHelper } from '../helpers/index';
+class NegociacoesView extends View<IProxyNegociacao> {
 
-export class NegociacoesView extends View<Negociacoes> {
-
-    template(model: Negociacoes): string {
+    template(model: IProxyNegociacao): string {
         return `
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>DATA</th>
-                        <th>QUANTIDADE</th>
-                        <th>VALOR</th>
-                        <th>VOLUME</th>
+                        <th onclick="controller.ordena('data')" >DATA</th>
+                        <th onclick="controller.ordena('quantidade')" >QUANTIDADE</th>
+                        <th onclick="controller.ordena('valor')" >VALOR</th>
+                        <th onclick="controller.ordena('volume')" >VOLUME</th>
                     </tr>
                 </thead>
         

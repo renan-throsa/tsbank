@@ -1,5 +1,4 @@
-
-export abstract class View<T> {
+ abstract class View<T> {
 
     private _elemento: JQuery;
 
@@ -18,5 +17,3 @@ export abstract class View<T> {
 }
 
 
-//npm install @types/jquery@3.3.36 "typescript": "^3.7.5"
-// https://libraries.io/npm/@types%2Fjquery/3.3.36

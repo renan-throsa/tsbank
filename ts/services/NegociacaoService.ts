@@ -1,20 +1,40 @@
-import { NegociacaoParcial, Negociacao } from '../models/index';
+class NegociacaoService {
+    private readonly URL = 'http://localhost:4000/';
 
-export class NegociacaoService {
-
-    obterNegociacoes(handler: HandlerFunction): Promise<Negociacao[]> {
-
-        return fetch('http://localhost:8080/dados')
+    obterNegociacoesDaSemana(handler: HandlerFunction): Promise<Negociacao[]> {
+        return fetch(this.URL + 'negociacoes/semana')
             .then(res => handler(res))
             .then(res => res.json())
             .then((dados: NegociacaoParcial[]) =>
-                dados.map(dado => new Negociacao(new Date(), dado.vezes, dado.montante))
+                dados.map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor))
+            )
+            .catch(err => { throw new Error(err) });
+
+    }
+
+    obterNegociacoesDaSemanaPassada(handler: HandlerFunction): Promise<Negociacao[]> {
+        return fetch(this.URL + 'negociacoes/anterior')
+            .then(res => handler(res))
+            .then(res => res.json())
+            .then((dados: NegociacaoParcial[]) =>
+                dados.map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor))
+            )
+            .catch(err => { throw new Error(err) });
+
+    }
+
+    obterNegociacoesDaRetrasada(handler: HandlerFunction): Promise<Negociacao[]> {
+        return fetch(this.URL + 'negociacoes/retrasada')
+            .then(res => handler(res))
+            .then(res => res.json())
+            .then((dados: NegociacaoParcial[]) =>
+                dados.map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor))
             )
             .catch(err => { throw new Error(err) });
 
     }
 }
 
-export interface HandlerFunction {
+interface HandlerFunction {
     (res: Response): Response
 }

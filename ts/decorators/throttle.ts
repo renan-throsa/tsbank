@@ -1,4 +1,4 @@
-export function throttle(milissegundos = 1000) {
+function throttle(milissegundos = 1000) {
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
 
