@@ -1,7 +1,7 @@
 class NegociacoesView extends View<IProxyNegociacao> {
 
     template(model: IProxyNegociacao): string {
-        return `
+        return `        
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
