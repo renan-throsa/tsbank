@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexDB</title>
+</head>
+
+<body>
+    <script>
+        let abriRequisicao = window.indexedDB.open("tsbanco", 2);
+
+        abriRequisicao.onupgradeneeded = e => {
+            //IDBDatabase
+            console.log(e.target.result);
+            console.log("cria ou altera um banco jah exitente.")
+        }
+
+        abriRequisicao.onsuccess = e => {
+            //IDBOpenDBRequest
+            console.log(e.target);
+            console.log("conxao obtida com sucesso!")
+        }
+
+        abriRequisicao.onerror = e => {
+            
+            console.log(e.target.error)
+        }
+
+    </script>
+</body>
+
+</html>

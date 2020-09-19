@@ -13,7 +13,7 @@ class NegociacaoController {
     private _negociacoesView: NegociacoesView;
     private _mensagem: IProxyMensagem;
     private _mensagemView: MensagemView;
-    private _negociacaoService: NegociacaoService;
+    private _negociacaoService: NegociacaoService;    
     private _ordemAtual: string;
 
     constructor() {
