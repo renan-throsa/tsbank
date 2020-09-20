@@ -12,6 +12,17 @@ class NegociacaoController {
         this._negociacoes = new ProxyNegociacao(new Negociacoes(), (model) => { this._negociacoesView.update(model); });
         this._mensagemView = new MensagemView('#mensagemView');
         this._mensagem = new ProxyMensagem(new Mensagem(), (model) => { this._mensagemView.update(model); });
+        ConexaoService
+            .getConexao()
+            .then(conexao => {
+            new NegociacaoDao(conexao)
+                .lista()
+                .then(negociacoes => {
+                negociacoes.forEach(negociacao => {
+                    this._negociacoes.adiciona(negociacao);
+                });
+            });
+        });
     }
     adiciona(event) {
         event.preventDefault();

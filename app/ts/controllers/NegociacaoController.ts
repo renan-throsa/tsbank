@@ -13,7 +13,7 @@ class NegociacaoController {
     private _negociacoesView: NegociacoesView;
     private _mensagem: IProxyMensagem;
     private _mensagemView: MensagemView;
-    private _negociacaoService: NegociacaoService;    
+    private _negociacaoService: NegociacaoService;
     private _ordemAtual: string;
 
     constructor() {
@@ -30,6 +30,17 @@ class NegociacaoController {
             (model: Mensagem) => { this._mensagemView.update(model) }
         );
 
+        ConexaoService
+            .getConexao()
+            .then(conexao => {
+                new NegociacaoDao(conexao as IDBDatabase)
+                    .lista()
+                    .then(negociacoes => {
+                        negociacoes.forEach(negociacao => {
+                            this._negociacoes.adiciona(negociacao);
+                        });
+                    })
+            })
     }
 
     adiciona(event: Event) {
