@@ -33,6 +33,29 @@ class NegociacaoService {
             .catch(err => { throw new Error(err) });
 
     }
+
+    cadastra(negociacao: Negociacao): Promise<string> {
+        return ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao as IDBDatabase))
+            .then(dao => dao.adiciona(negociacao))
+
+    }
+
+    lista() {
+        return ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao as IDBDatabase))
+            .then(dao => dao.listaTodos())
+    }
+
+    apagaTudo() {
+        return ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao as IDBDatabase))
+            .then(dao => dao.apagaTodos())
+
+    }
 }
 
 interface HandlerFunction {

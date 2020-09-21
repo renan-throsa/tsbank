@@ -7,7 +7,7 @@ class Negociacoes {
     }
     contem(negociacao) {
         return this._negociacoes
-            .some(negociacaoAtual => JSON.stringify(negociacaoAtual) == JSON.stringify(negociacao));
+            .some(negociacaoAtual => negociacaoAtual.ehIgual(negociacao));
     }
     adiciona(negociacao) {
         this._negociacoes.push(negociacao);

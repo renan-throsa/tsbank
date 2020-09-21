@@ -12,10 +12,8 @@ class NegociacaoController {
         this._negociacoes = new ProxyNegociacao(new Negociacoes(), (model) => { this._negociacoesView.update(model); });
         this._mensagemView = new MensagemView('#mensagemView');
         this._mensagem = new ProxyMensagem(new Mensagem(), (model) => { this._mensagemView.update(model); });
-        ConexaoService
-            .getConexao()
-            .then(conexao => new NegociacaoDao(conexao))
-            .then(dao => dao.listaTodos())
+        this._negociacaoService
+            .lista()
             .then(negociacoes => {
             negociacoes.forEach(negociacao => {
                 this._negociacoes.adiciona(negociacao);
@@ -24,27 +22,20 @@ class NegociacaoController {
     }
     adiciona(event) {
         event.preventDefault();
-        let data = DateHelper.textoParaData(this._inputData.val());
-        if (!this._ehDiaUtil(data)) {
-            this._mensagem.setTexto('Somente negociações em dias úteis, por favor!');
-            return;
+        let negociacao = this._criaNegociacao();
+        if (negociacao) {
+            this._negociacaoService
+                .cadastra(negociacao)
+                .then(memsagem => {
+                this._negociacoes.adiciona(negociacao);
+                this._mensagem.setTexto(memsagem);
+                this._limpaFormulario();
+            });
         }
-        const negociacao = new Negociacao(data, parseInt(this._inputQuantidade.val()), parseFloat(this._inputValor.val()));
-        ConexaoService
-            .getConexao()
-            .then(conexao => new NegociacaoDao(conexao))
-            .then(dao => dao.adiciona(negociacao))
-            .then(memsagem => {
-            this._negociacoes.adiciona(negociacao);
-            this._mensagem.setTexto(memsagem);
-            this._limpaFormulario();
-        });
     }
     apaga() {
-        ConexaoService
-            .getConexao()
-            .then(conexao => new NegociacaoDao(conexao))
-            .then(dao => dao.apagaTodos())
+        this._negociacaoService
+            .apagaTudo()
             .then(memsagem => {
             this._mensagem.setTexto(memsagem);
             this._negociacoes.esvazia();
@@ -86,6 +77,17 @@ class NegociacaoController {
             negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
             this._mensagem.setTexto("Negociações importadas com sucesso.");
         });
+    }
+    _criaNegociacao() {
+        let data = DateHelper.textoParaData(this._inputData.val());
+        if (!this._ehDiaUtil(data)) {
+            this._mensagem.setTexto('Somente negociações em dias úteis, por favor!');
+            return null;
+        }
+        else {
+            const negociacao = new Negociacao(data, parseInt(this._inputQuantidade.val()), parseFloat(this._inputValor.val()));
+            return negociacao;
+        }
     }
     _ehDiaUtil(data) {
         return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;

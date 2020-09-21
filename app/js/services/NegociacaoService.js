@@ -23,4 +23,22 @@ class NegociacaoService {
             .then((dados) => dados.map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor)))
             .catch(err => { throw new Error(err); });
     }
+    cadastra(negociacao) {
+        return ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao))
+            .then(dao => dao.adiciona(negociacao));
+    }
+    lista() {
+        return ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao))
+            .then(dao => dao.listaTodos());
+    }
+    apagaTudo() {
+        return ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao))
+            .then(dao => dao.apagaTodos());
+    }
 }

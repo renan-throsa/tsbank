@@ -8,8 +8,7 @@ class Negociacoes {
 
     contem(negociacao: Negociacao): boolean {
         return this._negociacoes
-            .some(negociacaoAtual =>
-                JSON.stringify(negociacaoAtual) == JSON.stringify(negociacao));
+            .some(negociacaoAtual => negociacaoAtual.ehIgual(negociacao))
     }
 
     adiciona(negociacao: Negociacao) {
