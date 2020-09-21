@@ -6,29 +6,31 @@ class NegociacaoDao {
         this._store = 'negociacoes';
     }
 
-    public adiciona(negociacao: Negociacao): Promise<void> {
+    public adiciona(negociacao: Negociacao): Promise<string> {
         return new Promise((resolve, rejeita) => {
-            let transacao = this._conexao.transaction([this._store], 'readwrite');
-            let store = transacao.objectStore(this._store);
-            let requisicao = store.add(negociacao);
+            let requisicao = this._conexao
+                .transaction([this._store], 'readwrite')
+                .objectStore(this._store)
+                .add(negociacao);
 
             requisicao.onsuccess = e => {
-                resolve();
+                resolve("Negociação adicionada com sucesso.");
             }
 
             requisicao.onerror = e => {
                 let alvo = e.target as IDBOpenDBRequest;
                 console.log(alvo.error);
-                rejeita('Não foi possível adicionar a negociação');
+                rejeita('Não foi possível adicionar a negociação.');
             }
         })
     }
 
-    public lista(): Promise<Array<Negociacao>> {
+    public listaTodos(): Promise<Array<Negociacao>> {
         return new Promise((resolve, rejeita) => {
-            let transacao = this._conexao.transaction([this._store], 'readwrite');
-            let store = transacao.objectStore(this._store);
-            let cursor = store.openCursor();
+            let cursor = this._conexao.
+                transaction([this._store], 'readwrite')
+                .objectStore(this._store)
+                .openCursor();
 
             let negociacoes: Array<Negociacao> = [];
 
@@ -50,5 +52,24 @@ class NegociacaoDao {
                 rejeita('Não foi possível listar as negociações');
             }
         })
+    }
+
+    public apagaTodos(): Promise<string> {
+        return new Promise((resolve, rejeita) => {
+            let requisicao = this._conexao
+                .transaction([this._store], 'readwrite')
+                .objectStore(this._store)
+                .clear();
+
+            requisicao.onsuccess = e => {
+                resolve("Negociações apagadas com sucesso.");
+            }
+
+            requisicao.onerror = e => {
+                let alvo = e.target as IDBOpenDBRequest;
+                console.log(alvo.error);
+                rejeita('Não foi possível apagar as negociações');
+            }
+        });
     }
 }

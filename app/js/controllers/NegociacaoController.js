@@ -14,13 +14,11 @@ class NegociacaoController {
         this._mensagem = new ProxyMensagem(new Mensagem(), (model) => { this._mensagemView.update(model); });
         ConexaoService
             .getConexao()
-            .then(conexao => {
-            new NegociacaoDao(conexao)
-                .lista()
-                .then(negociacoes => {
-                negociacoes.forEach(negociacao => {
-                    this._negociacoes.adiciona(negociacao);
-                });
+            .then(conexao => new NegociacaoDao(conexao))
+            .then(dao => dao.listaTodos())
+            .then(negociacoes => {
+            negociacoes.forEach(negociacao => {
+                this._negociacoes.adiciona(negociacao);
             });
         });
     }
@@ -32,13 +30,25 @@ class NegociacaoController {
             return;
         }
         const negociacao = new Negociacao(data, parseInt(this._inputQuantidade.val()), parseFloat(this._inputValor.val()));
-        this._negociacoes.adiciona(negociacao);
-        this._mensagem.setTexto("Negociação adicionada com sucesso");
-        this._limpaFormulario();
+        ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao))
+            .then(dao => dao.adiciona(negociacao))
+            .then(memsagem => {
+            this._negociacoes.adiciona(negociacao);
+            this._mensagem.setTexto(memsagem);
+            this._limpaFormulario();
+        });
     }
     apaga() {
-        this._negociacoes.esvazia();
-        this._mensagem.setTexto("Negociaçoes apagadas com sucesso");
+        ConexaoService
+            .getConexao()
+            .then(conexao => new NegociacaoDao(conexao))
+            .then(dao => dao.apagaTodos())
+            .then(memsagem => {
+            this._mensagem.setTexto(memsagem);
+            this._negociacoes.esvazia();
+        });
     }
     ordena(coluna) {
         if (this._ordemAtual == coluna) {
@@ -67,9 +77,13 @@ class NegociacaoController {
             this._negociacaoService.obterNegociacoesDaSemanaPassada(isOK),
             this._negociacaoService.obterNegociacoesDaRetrasada(isOK)
         ]).then(negociacoes => {
-            negociacoes
-                .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
-                .forEach(negociacao => this._negociacoes.adiciona(negociacao));
+            return negociacoes
+                .reduce((accumulator, currentValue) => accumulator.concat(currentValue));
+        }).then(negociacoes => {
+            return negociacoes
+                .filter(negociacao => !this._negociacoes.contem(negociacao));
+        }).then(negociacoes => {
+            negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
             this._mensagem.setTexto("Negociações importadas com sucesso.");
         });
     }

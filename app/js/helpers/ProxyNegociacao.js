@@ -4,6 +4,9 @@ class ProxyNegociacao {
         this._armadilha = _armadilha;
         this._armadilha(this);
     }
+    contem(negociacao) {
+        return this._list.contem(negociacao);
+    }
     ordena(criteria) {
         this._list.ordena(criteria);
         this._armadilha(this);

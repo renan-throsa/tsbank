@@ -1,11 +1,16 @@
 class Negociacoes {
 
-    ordena(criteria: SortingFunction) {
-        this._negociacoes.sort(criteria);        
-    }
-
     private _negociacoes: Array<Negociacao> = []
 
+    ordena(criteria: SortingFunction) {
+        this._negociacoes.sort(criteria);
+    }
+
+    contem(negociacao: Negociacao): boolean {
+        return this._negociacoes
+            .some(negociacaoAtual =>
+                JSON.stringify(negociacaoAtual) == JSON.stringify(negociacao));
+    }
 
     adiciona(negociacao: Negociacao) {
         this._negociacoes.push(negociacao)
@@ -18,5 +23,5 @@ class Negociacoes {
     esvazia() {
         this._negociacoes = [];
     }
- 
+
 }
