@@ -4,8 +4,8 @@
         "noImplicitAny": true,
         "removeComments": true,
         "strictNullChecks": true,
-        "experimentalDecorators": true,  
-        "moduleResolution": "node",      
+        "experimentalDecorators": true,
+        "module": "es2015",
         "target": "es6",
         "outDir": "app/js"
     },

@@ -1,4 +1,7 @@
-class Negociacoes {
+import { SortingFunction } from "../helpers/index";
+import { Negociacao } from "./Negociacao";
+
+export class Negociacoes {
 
     private _negociacoes: Array<Negociacao> = []
 

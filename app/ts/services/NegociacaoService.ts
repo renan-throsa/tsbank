@@ -1,4 +1,8 @@
-class NegociacaoService {
+import { NegociacaoDao } from "../dao/NegociacaoDao";
+import { Negociacao, NegociacaoParcial } from "../models/index";
+import { ConexaoService } from "./ConexaoService";
+
+export class NegociacaoService {
     private readonly URL = 'http://localhost:4000/';
 
     obterNegociacoesDaSemana(handler: HandlerFunction): Promise<Negociacao[]> {
@@ -58,6 +62,6 @@ class NegociacaoService {
     }
 }
 
-interface HandlerFunction {
+export interface HandlerFunction {
     (res: Response): Response
 }

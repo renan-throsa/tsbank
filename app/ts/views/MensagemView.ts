@@ -1,4 +1,7 @@
-class MensagemView extends View<Mensagem> {
+import { Mensagem } from "../models/Mensagem";
+import { View } from "./View";
+
+export class MensagemView extends View<Mensagem> {
 
     template(model: Mensagem): string {
         return model.texto ? `<p class="alert alert-info">${model.texto}</p>` : '<p></p>';

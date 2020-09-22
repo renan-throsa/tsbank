@@ -1,4 +1,6 @@
-class NegociacaoDao {
+import { Negociacao } from "../models/Negociacao";
+
+export class NegociacaoDao {
 
     private _store: string;
 

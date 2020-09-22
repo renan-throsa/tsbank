@@ -1,4 +1,9 @@
-class NegociacoesView extends View<IProxyNegociacao> {
+import { DateHelper } from "../helpers/DateHelper";
+import { IProxyNegociacao } from "../helpers/IProxyNegociacao";
+import { View } from "./View";
+
+
+export class NegociacoesView extends View<IProxyNegociacao> {
 
     template(model: IProxyNegociacao): string {
         return `        

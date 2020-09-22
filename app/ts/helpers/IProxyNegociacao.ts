@@ -1,4 +1,6 @@
-interface IProxyNegociacao {
+import { Negociacao } from "../models/Negociacao";
+
+export interface IProxyNegociacao {
     ordena(criteria: SortingFunction): void
     adiciona(negociacao: Negociacao): void
     contem(negociacao: Negociacao): boolean
@@ -6,6 +8,6 @@ interface IProxyNegociacao {
     paraArray(): Negociacao[]
 }
 
-interface SortingFunction {
+export interface SortingFunction {
     (a: any, b: any): number
 }

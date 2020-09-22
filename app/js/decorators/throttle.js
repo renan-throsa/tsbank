@@ -1,4 +1,4 @@
-function throttle(milissegundos = 1000) {
+export function throttle(milissegundos = 1000) {
     return function (target, propertyKey, descriptor) {
         const metodoOriginal = descriptor.value;
         let timer = 0;

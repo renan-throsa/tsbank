@@ -1,4 +1,7 @@
-class NegociacaoService {
+import { NegociacaoDao } from "../dao/NegociacaoDao";
+import { Negociacao } from "../models/index";
+import { ConexaoService } from "./ConexaoService";
+export class NegociacaoService {
     constructor() {
         this.URL = 'http://localhost:4000/';
     }

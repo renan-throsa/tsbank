@@ -1,4 +1,7 @@
-class ProxyNegociacao implements IProxyNegociacao {
+import { Negociacao, Negociacoes } from "../models/index";
+import { IProxyNegociacao, SortingFunction } from "./IProxyNegociacao";
+
+export class ProxyNegociacao implements IProxyNegociacao {
 
     constructor(private _list: Negociacoes, private _armadilha: Function) {
         this._armadilha(this);

@@ -1,4 +1,4 @@
-class ProxyNegociacao {
+export class ProxyNegociacao {
     constructor(_list, _armadilha) {
         this._list = _list;
         this._armadilha = _armadilha;

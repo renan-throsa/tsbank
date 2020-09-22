@@ -1,4 +1,4 @@
-function domInject(seletor) {
+export function domInject(seletor) {
     return function (target, key) {
         let elemento;
         const getter = function () {

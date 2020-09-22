@@ -1,4 +1,4 @@
-class ProxyMensagem {
+export class ProxyMensagem {
     constructor(_mensagem, _armadilha) {
         this._mensagem = _mensagem;
         this._armadilha = _armadilha;

@@ -1,7 +1,16 @@
 //npm install @types/jquery@3.3.36 "typescript": "^3.7.5"
 // https://libraries.io/npm/@types%2Fjquery/3.3.36
 
-class NegociacaoController {
+import { NegociacoesView, MensagemView } from '../views/index';
+import { Negociacoes, Negociacao, Mensagem } from '../models/index';
+import { domInject, throttle } from '../decorators/index';
+import { DateHelper } from '../helpers/index';
+import { NegociacaoService } from '../services/index';
+import { IProxyNegociacao, ProxyNegociacao } from '../helpers/index';
+import { IProxyMensagem, ProxyMensagem } from '../helpers/index';
+
+
+export class NegociacaoController {
 
     @domInject('#data')
     private _inputData: JQuery;
