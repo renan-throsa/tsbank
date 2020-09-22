@@ -1,5 +1,5 @@
 import { Negociacao, Negociacoes } from "../models/index";
-import { IProxyNegociacao, SortingFunction } from "./IProxyNegociacao";
+import { IProxyNegociacao, SortingFunction } from "./index";
 
 export class ProxyNegociacao implements IProxyNegociacao {
 

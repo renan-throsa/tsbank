@@ -1,6 +1,6 @@
-import { NegociacaoDao } from "../dao/NegociacaoDao";
+import { NegociacaoDao } from "../dao/index";
 import { Negociacao, NegociacaoParcial } from "../models/index";
-import { ConexaoService } from "./ConexaoService";
+import { ConexaoService } from "./index";
 
 export class NegociacaoService {
     private readonly URL = 'http://localhost:4000/';

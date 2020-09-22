@@ -1,5 +1,5 @@
-import { Mensagem } from "../models/Mensagem";
 import { View } from "./View";
+import { Mensagem } from "../models/Mensagem";
 
 export class MensagemView extends View<Mensagem> {
 

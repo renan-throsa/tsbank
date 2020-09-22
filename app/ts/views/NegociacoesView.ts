@@ -1,5 +1,4 @@
-import { DateHelper } from "../helpers/DateHelper";
-import { IProxyNegociacao } from "../helpers/IProxyNegociacao";
+import { DateHelper, IProxyNegociacao } from "../helpers/index";
 import { View } from "./View";
 
 

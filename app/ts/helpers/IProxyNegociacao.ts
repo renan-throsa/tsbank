@@ -1,4 +1,4 @@
-import { Negociacao } from "../models/Negociacao";
+import { Negociacao } from "../models/index";
 
 export interface IProxyNegociacao {
     ordena(criteria: SortingFunction): void

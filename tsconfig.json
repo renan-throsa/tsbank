@@ -5,7 +5,7 @@
         "removeComments": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
-        "module": "es2015",
+        "module": "system",
         "target": "es6",
         "outDir": "app/js"
     },

@@ -1,14 +1,9 @@
-//npm install @types/jquery@3.3.36 "typescript": "^3.7.5"
-// https://libraries.io/npm/@types%2Fjquery/3.3.36
-
-import { NegociacoesView, MensagemView } from '../views/index';
-import { Negociacoes, Negociacao, Mensagem } from '../models/index';
-import { domInject, throttle } from '../decorators/index';
-import { DateHelper } from '../helpers/index';
-import { NegociacaoService } from '../services/index';
-import { IProxyNegociacao, ProxyNegociacao } from '../helpers/index';
-import { IProxyMensagem, ProxyMensagem } from '../helpers/index';
-
+import { domInject, throttle } from "../decorators/index";
+import { Mensagem, Negociacao, Negociacoes } from "../models/index";
+import { NegociacaoService } from "../services/index";
+import { MensagemView, NegociacoesView } from "../views/index";
+import { DateHelper, IProxyMensagem, IProxyNegociacao, ProxyMensagem, ProxyNegociacao }
+    from "../helpers/index";
 
 export class NegociacaoController {
 
@@ -143,7 +138,6 @@ export class NegociacaoController {
     }
 
 }
-
 
 enum DiaDaSemana {
     Domingo,
