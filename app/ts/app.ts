@@ -1,6 +1,6 @@
-import { NegociacaoController } from "./controllers/NegociacaoController";
+import { instanciaAtual } from "./controllers/NegociacaoController";
 
-const controller = new NegociacaoController();
+const controller = instanciaAtual();
 
 $('.form').on("submit", controller.adiciona.bind(controller));
 $('#botao-importa').on("click", controller.importa.bind(controller));

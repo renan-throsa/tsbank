@@ -1,9 +1,12 @@
-System.register(["../helpers/index", "./View"], function (exports_1, context_1) {
+System.register(["../controllers/NegociacaoController", "../helpers/index", "./View"], function (exports_1, context_1) {
     "use strict";
-    var index_1, View_1, NegociacoesView;
+    var NegociacaoController_1, index_1, View_1, NegociacoesView;
     var __moduleName = context_1 && context_1.id;
     return {
         setters: [
+            function (NegociacaoController_1_1) {
+                NegociacaoController_1 = NegociacaoController_1_1;
+            },
             function (index_1_1) {
                 index_1 = index_1_1;
             },
@@ -13,15 +16,27 @@ System.register(["../helpers/index", "./View"], function (exports_1, context_1) 
         ],
         execute: function () {
             NegociacoesView = class NegociacoesView extends View_1.View {
+                constructor(seletor) {
+                    super(seletor);
+                    this._elemento.on("click", function (evento) {
+                        var _a;
+                        if (evento.target.nodeName == 'TH') {
+                            if (evento.target != null) {
+                                let thNome = (_a = evento.target.textContent) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase();
+                                NegociacaoController_1.instanciaAtual().ordena(thNome);
+                            }
+                        }
+                    });
+                }
                 template(model) {
                     return `        
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th onclick="controller.ordena('data')" >DATA</th>
-                        <th onclick="controller.ordena('quantidade')" >QUANTIDADE</th>
-                        <th onclick="controller.ordena('valor')" >VALOR</th>
-                        <th onclick="controller.ordena('volume')" >VOLUME</th>
+                        <th>DATA</th>
+                        <th>QUANTIDADE</th>
+                        <th>VALOR</th>
+                        <th>VOLUME</th>
                     </tr>
                 </thead>
         

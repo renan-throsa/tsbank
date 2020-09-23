@@ -1,18 +1,31 @@
+import { instanciaAtual } from "../controllers/NegociacaoController";
 import { DateHelper, IProxyNegociacao } from "../helpers/index";
 import { View } from "./View";
 
 
 export class NegociacoesView extends View<IProxyNegociacao> {
 
+    constructor(seletor: string) {
+        super(seletor);
+        this._elemento.on("click", function (evento) {
+            if (evento.target.nodeName == 'TH') {
+                if (evento.target != null) {
+                    let thNome = evento.target.textContent?.toLocaleLowerCase() as string;
+                    instanciaAtual().ordena(thNome);
+                }
+            }
+        });
+    }
+
     template(model: IProxyNegociacao): string {
         return `        
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th onclick="controller.ordena('data')" >DATA</th>
-                        <th onclick="controller.ordena('quantidade')" >QUANTIDADE</th>
-                        <th onclick="controller.ordena('valor')" >VALOR</th>
-                        <th onclick="controller.ordena('volume')" >VOLUME</th>
+                        <th>DATA</th>
+                        <th>QUANTIDADE</th>
+                        <th>VALOR</th>
+                        <th>VOLUME</th>
                     </tr>
                 </thead>
         

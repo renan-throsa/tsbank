@@ -6,8 +6,12 @@ System.register(["../decorators/index", "../models/index", "../services/index", 
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
-    var index_1, index_2, index_3, index_4, index_5, NegociacaoController, DiaDaSemana;
+    var index_1, index_2, index_3, index_4, index_5, NegociacaoController, DiaDaSemana, controller;
     var __moduleName = context_1 && context_1.id;
+    function instanciaAtual() {
+        return controller;
+    }
+    exports_1("instanciaAtual", instanciaAtual);
     return {
         setters: [
             function (index_1_1) {
@@ -133,7 +137,6 @@ System.register(["../decorators/index", "../models/index", "../services/index", 
             __decorate([
                 index_1.throttle()
             ], NegociacaoController.prototype, "importa", null);
-            exports_1("NegociacaoController", NegociacaoController);
             (function (DiaDaSemana) {
                 DiaDaSemana[DiaDaSemana["Domingo"] = 0] = "Domingo";
                 DiaDaSemana[DiaDaSemana["Segunda"] = 1] = "Segunda";
@@ -143,6 +146,7 @@ System.register(["../decorators/index", "../models/index", "../services/index", 
                 DiaDaSemana[DiaDaSemana["Sexta"] = 5] = "Sexta";
                 DiaDaSemana[DiaDaSemana["Sabado"] = 6] = "Sabado";
             })(DiaDaSemana || (DiaDaSemana = {}));
+            controller = new NegociacaoController();
         }
     };
 });

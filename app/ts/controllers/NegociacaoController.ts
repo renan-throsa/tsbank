@@ -5,7 +5,7 @@ import { MensagemView, NegociacoesView } from "../views/index";
 import { DateHelper, IProxyMensagem, IProxyNegociacao, ProxyMensagem, ProxyNegociacao }
     from "../helpers/index";
 
-export class NegociacaoController {
+class NegociacaoController {
 
     @domInject('#data')
     private _inputData: JQuery;
@@ -147,4 +147,9 @@ enum DiaDaSemana {
     Quinta,
     Sexta,
     Sabado,
+}
+
+const controller = new NegociacaoController();
+export function instanciaAtual() {
+    return controller;
 }
