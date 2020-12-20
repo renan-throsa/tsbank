@@ -30,7 +30,7 @@ System.register(["../controllers/NegociacaoController", "../helpers/index", "./V
                 }
                 template(model) {
                     return `        
-            <table class="table table-hover table-bordered">
+            <table>
                 <thead>
                     <tr>
                         <th>DATA</th>

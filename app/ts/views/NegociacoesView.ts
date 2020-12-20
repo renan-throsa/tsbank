@@ -19,7 +19,7 @@ export class NegociacoesView extends View<IProxyNegociacao> {
 
     template(model: IProxyNegociacao): string {
         return `        
-            <table class="table table-hover table-bordered">
+            <table>
                 <thead>
                     <tr>
                         <th>DATA</th>

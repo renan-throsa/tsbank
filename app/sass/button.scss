@@ -1,0 +1,29 @@
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    border: 1px solid transparent;
+    padding: 10px 15px;
+    color: white;
+    border-radius: .25rem;
+}
+
+.btn-primary {
+    background-color: #0062cc;
+    border-color: #005cbf;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-default {
+    background-color: #545b62;
+    border-color: #4e555b;
+}
+
+.btn:hover {
+    color: #000;
+    background-color: #ccc;
+}
