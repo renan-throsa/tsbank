@@ -15,24 +15,17 @@ body {
     list-style-type: none;    
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    background-color: #4d636f;
-    color: #fff;
+    display: flex;
+    background-color: $secondary-background-color;
+    color: $default-background-color;
     font-size: 18px;
     border-bottom: 1px solid #1e8adc;
 }
 
-.nav-item-left {
-    float: left;
-}
-
-.nav-item-right {
-    float: right;
-}
 
 .nav-link {
     display: block;
-    color: white;
+    color: $default-background-color;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -60,22 +53,8 @@ main {
 }
 
 .container {
-    border-radius: 5px;
-    color: #000;
-    background-color: #fff;
-    border: solid #f7f7f9;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    @extend %default-container;
     padding: 1.5rem;    
-    border-width: .2rem;
-    
+    border-width: .2rem;    
 }
 
-footer {        
-    background-color: #4d636f;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
