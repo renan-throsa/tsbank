@@ -1,5 +1,5 @@
-import { Mensagem } from "../models/index";
-import { IProxyMensagem } from "./index";
+import { Mensagem } from "../models/index.js";
+import { IProxyMensagem } from "./index.js";
 
 export class ProxyMensagem implements IProxyMensagem {
 

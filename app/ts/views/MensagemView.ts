@@ -1,9 +1,9 @@
-import { View } from "./View";
-import { Mensagem } from "../models/Mensagem";
+import { View } from "./View.js";
+import { Mensagem } from "../models/Mensagem.js";
 
 export class MensagemView extends View<Mensagem> {
 
-    template(model: Mensagem): string {
+    protected template(model: Mensagem): string {
         return model.texto ? `<p class="alert alert-info">${model.texto}</p>` : '<p></p>';
     }
 }

@@ -1,18 +1,6 @@
-System.register(["./controllers/NegociacaoController"], function (exports_1, context_1) {
-    "use strict";
-    var NegociacaoController_1, controller;
-    var __moduleName = context_1 && context_1.id;
-    return {
-        setters: [
-            function (NegociacaoController_1_1) {
-                NegociacaoController_1 = NegociacaoController_1_1;
-            }
-        ],
-        execute: function () {
-            controller = NegociacaoController_1.instanciaAtual();
-            $('.form').on("submit", controller.adiciona.bind(controller));
-            $('#botao-importa').on("click", controller.importa.bind(controller));
-            $('#botao-apaga').on("click", controller.apaga.bind(controller));
-        }
-    };
-});
+var _a, _b, _c;
+import { instanciaAtual } from "./controllers/NegociacaoController.js";
+const controller = instanciaAtual();
+(_a = document.querySelector('.form')) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', controller.adiciona.bind(controller));
+(_b = document.querySelector('#botao-importa')) === null || _b === void 0 ? void 0 : _b.addEventListener("click", controller.importa.bind(controller));
+(_c = document.querySelector('#botao-apaga')) === null || _c === void 0 ? void 0 : _c.addEventListener("click", controller.apaga.bind(controller));

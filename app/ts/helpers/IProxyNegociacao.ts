@@ -1,11 +1,11 @@
-import { Negociacao } from "../models/index";
+import { Negociacao } from "../models/index.js";
 
 export interface IProxyNegociacao {
     ordena(criteria: SortingFunction): void
     adiciona(negociacao: Negociacao): void
     contem(negociacao: Negociacao): boolean
     esvazia(): void
-    paraArray(): Negociacao[]
+    lista(): ReadonlyArray<Negociacao>
 }
 
 export interface SortingFunction {

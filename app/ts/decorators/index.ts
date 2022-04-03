@@ -1,2 +1,2 @@
-export * from './donInject';
-export * from './throttle';
+export * from './donInject.js';
+export * from './throttle.js';

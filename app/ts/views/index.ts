@@ -1,3 +1,3 @@
-export * from './View'; 
-export * from './MensagemView'; 
-export * from './NegociacoesView';
+export * from './View.js'; 
+export * from './MensagemView.js'; 
+export * from './NegociacoesView.js';

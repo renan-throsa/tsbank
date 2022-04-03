@@ -1,4 +1,4 @@
-import { Negociacao } from "../models/index";
+import { Negociacao } from "../models/index.js";
 
 export class NegociacaoDao {
 
@@ -40,8 +40,8 @@ export class NegociacaoDao {
                 let alvo = e.target as IDBOpenDBRequest
                 let atual: any = alvo.result;
                 if (atual) {
-                    let dado = atual.value
-                    negociacoes.push(new Negociacao(dado._data, dado._quantidade, dado._valor));
+                    let dado = atual.value as Negociacao;
+                    negociacoes.push(new Negociacao(dado.data, dado.quantidade, dado.valor));
                     atual.continue();
                 } else {
                     resolve(negociacoes);

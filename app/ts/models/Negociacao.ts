@@ -1,39 +1,21 @@
 export class Negociacao {
 
-    private _data: Date;
-    private _quantidade: number;
-    private _valor: number;
+    constructor(private _data: Date, public readonly quantidade: number, public readonly valor: number) {
+        this._data = new Date(_data.getTime());
+        this.quantidade = quantidade;
+        this.valor = valor;
+    }
 
-
-    constructor(data: Date, quantidade: number, valor: number) {
-        this._data = new Date(data.getTime());
-        this._quantidade = quantidade;
-        this._valor = valor;
+    get volume() {
+        return this.quantidade * this.valor;
     }
 
     get data() {
         return new Date(this._data.getTime());
     }
 
-    get quantidade() {
-
-        return this._quantidade;
-
-    }
-
-    get valor() {
-
-        return this._valor;
-    }
-
-    get volume() {
-
-        return this._quantidade * this._valor;
-    }
-
     ehIgual(negociacao: Negociacao) {
         return JSON.stringify(this) == JSON.stringify(negociacao)
-
     }
 
 }

@@ -1,18 +1,16 @@
 export abstract class View<T> {
 
-    protected _elemento: JQuery;
+    protected _elemento: HTMLElement | null;
 
     constructor(seletor: string) {
-        // erro de compilação
-        this._elemento = $(seletor);
+        this._elemento = document.querySelector(seletor);
     }
 
-    update(model: T) {
-
-        this._elemento.html(this.template(model));
+    update(model: T): void {
+        if (this._elemento) this._elemento.innerHTML = this.template(model);        
     }
 
-    abstract template(model: T): string;
+    protected abstract template(model: T): string;
 }
 
 

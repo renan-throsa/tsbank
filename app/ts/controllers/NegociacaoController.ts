@@ -1,18 +1,19 @@
-import { domInject, throttle } from "../decorators/index";
-import { Mensagem, Negociacao, Negociacoes } from "../models/index";
-import { NegociacaoService } from "../services/index";
-import { MensagemView, NegociacoesView } from "../views/index";
+import { domInject, throttle } from "../decorators/index.js";
+import { Mensagem, Negociacao, Negociacoes } from "../models/index.js";
+import { NegociacaoService } from "../services/index.js";
+import { MensagemView, NegociacoesView } from "../views/index.js";
 import { DateHelper, IProxyMensagem, IProxyNegociacao, ProxyMensagem, ProxyNegociacao }
-    from "../helpers/index";
+    from "../helpers/index.js";
+import { DiasDaSemana } from "../enums/DiasDaSemana.js";
 
 class NegociacaoController {
 
     @domInject('#data')
-    private _inputData: JQuery;
+    private _inputData: HTMLInputElement;
     @domInject('#quantidade')
-    private _inputQuantidade: JQuery;
+    private _inputQuantidade: HTMLInputElement;
     @domInject('#valor')
-    private _inputValor: JQuery;
+    private _inputValor: HTMLInputElement;
     private _negociacoes: IProxyNegociacao;
     private _negociacoesView: NegociacoesView;
     private _mensagem: IProxyMensagem;
@@ -43,12 +44,11 @@ class NegociacaoController {
             })
     }
 
-    adiciona(event: Event) {
+    public adiciona(event: Event) {
 
         event.preventDefault();
         let negociacao: any = this._criaNegociacao();
         if (negociacao) {
-
             this._negociacaoService
                 .cadastra(negociacao)
                 .then(memsagem => {
@@ -60,7 +60,7 @@ class NegociacaoController {
 
     }
 
-    apaga() {
+    public apaga() {
         this._negociacaoService
             .apagaTudo()
             .then(memsagem => {
@@ -70,7 +70,7 @@ class NegociacaoController {
 
     }
 
-    ordena(coluna: string) {
+    public ordena(coluna: string) {
         if (this._ordemAtual == coluna) {
             this._negociacoes.ordena(function (a, b) {
                 return b[coluna] - a[coluna]
@@ -85,8 +85,7 @@ class NegociacaoController {
     }
 
     @throttle()
-    importa() {
-
+    public importa() {        
         function isOK(res: Response) {
             if (res.ok) {
                 return res;
@@ -100,6 +99,7 @@ class NegociacaoController {
             this._negociacaoService.obterNegociacoesDaSemanaPassada(isOK),
             this._negociacaoService.obterNegociacoesDaRetrasada(isOK)
         ]).then(negociacoes => {
+            console.log(negociacoes);
             return negociacoes
                 .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
         }).then(negociacoes => {
@@ -108,45 +108,36 @@ class NegociacaoController {
         }).then(negociacoes => {
             negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
             this._mensagem.setTexto("Negociações importadas com sucesso.")
-        })
+        }).catch((reason) => { console.log(reason)})
 
     }
 
     private _criaNegociacao(): Negociacao | null {
-        let data = DateHelper.textoParaData(<string>this._inputData.val())
+        let data = DateHelper.textoParaData(this._inputData.value)
         if (!this._ehDiaUtil(data)) {
             this._mensagem.setTexto('Somente negociações em dias úteis, por favor!');
             return null
         } else {
             const negociacao = new Negociacao(
                 data,
-                parseInt(<string>this._inputQuantidade.val()),
-                parseFloat(<string>this._inputValor.val()));
+                parseInt(this._inputQuantidade.value),
+                parseFloat(this._inputValor.value));
 
             return negociacao;
         }
 
     }
     private _ehDiaUtil(data: Date) {
-        return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo;
+        return data.getDay() != DiasDaSemana.Sabado && data.getDay() != DiasDaSemana.Domingo;
     }
 
     private _limpaFormulario(): void {
-        this._inputData.val("");
-        this._inputQuantidade.val(1);
-        this._inputValor.val(0.0)
+        this._inputData.value = '';
+        this._inputQuantidade.value = '1';
+        this._inputValor.value = '0.0';
+        this._inputData.focus();
     }
 
-}
-
-enum DiaDaSemana {
-    Domingo,
-    Segunda,
-    Terca,
-    Quarta,
-    Quinta,
-    Sexta,
-    Sabado,
 }
 
 const controller = new NegociacaoController();

@@ -1,2 +1,2 @@
-export * from './ConexaoService';
-export * from './NegociacaoService';
+export * from './ConexaoService.js';
+export * from './NegociacaoService.js';

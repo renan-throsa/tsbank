@@ -1,1 +1,1 @@
-export * from './NegociacaoDao';
+export * from './NegociacaoDao.js';

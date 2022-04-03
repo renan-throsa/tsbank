@@ -1,6 +1,6 @@
-import { NegociacaoDao } from "../dao/index";
-import { Negociacao, NegociacaoParcial } from "../models/index";
-import { ConexaoService } from "./index";
+import { NegociacaoDao } from "../dao/index.js";
+import { Negociacao, NegociacaoParcial } from "../models/index.js";
+import { ConexaoService } from "./index.js";
 
 export class NegociacaoService {
     private readonly URL = 'http://localhost:4000/';
@@ -43,7 +43,6 @@ export class NegociacaoService {
             .getConexao()
             .then(conexao => new NegociacaoDao(conexao as IDBDatabase))
             .then(dao => dao.adiciona(negociacao))
-
     }
 
     lista() {

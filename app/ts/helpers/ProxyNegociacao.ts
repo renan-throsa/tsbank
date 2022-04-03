@@ -1,5 +1,5 @@
-import { Negociacao, Negociacoes } from "../models/index";
-import { IProxyNegociacao, SortingFunction } from "./index";
+import { Negociacao, Negociacoes } from "../models/index.js";
+import { IProxyNegociacao, SortingFunction } from "./index.js";
 
 export class ProxyNegociacao implements IProxyNegociacao {
 
@@ -24,8 +24,8 @@ export class ProxyNegociacao implements IProxyNegociacao {
         this._armadilha(this)
     }
 
-    public paraArray(): Negociacao[] {
-        return this._list.paraArray();
+    public lista(): ReadonlyArray<Negociacao> {
+        return this._list.lista();
     }
 
 }
