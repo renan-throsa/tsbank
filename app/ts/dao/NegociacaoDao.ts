@@ -39,9 +39,9 @@ export class NegociacaoDao {
             cursor.onsuccess = e => {
                 let alvo = e.target as IDBOpenDBRequest
                 let atual: any = alvo.result;
-                if (atual) {
-                    let dado = atual.value as Negociacao;
-                    negociacoes.push(new Negociacao(dado.data, dado.quantidade, dado.valor));
+                if (atual) {                    
+                    let dado = atual.value;
+                    negociacoes.push(new Negociacao(dado._data, dado.quantidade, dado.valor));
                     atual.continue();
                 } else {
                     resolve(negociacoes);

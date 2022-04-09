@@ -3,7 +3,7 @@ export class Negociacao {
         this._data = _data;
         this.quantidade = quantidade;
         this.valor = valor;
-        this._data = new Date(_data.getTime());
+        this._data = new Date(_data);
         this.quantidade = quantidade;
         this.valor = valor;
     }
@@ -11,7 +11,7 @@ export class Negociacao {
         return this.quantidade * this.valor;
     }
     get data() {
-        return new Date(this._data.getTime());
+        return new Date(this._data);
     }
     ehIgual(negociacao) {
         return JSON.stringify(this) == JSON.stringify(negociacao);

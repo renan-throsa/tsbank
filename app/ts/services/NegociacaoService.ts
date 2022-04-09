@@ -45,7 +45,7 @@ export class NegociacaoService {
             .then(dao => dao.adiciona(negociacao))
     }
 
-    lista() {
+    lista() {        
         return ConexaoService
             .getConexao()
             .then(conexao => new NegociacaoDao(conexao as IDBDatabase))

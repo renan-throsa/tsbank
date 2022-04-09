@@ -1,7 +1,7 @@
 export class Negociacao {
 
-    constructor(private _data: Date, public readonly quantidade: number, public readonly valor: number) {
-        this._data = new Date(_data.getTime());
+    constructor(private _data: Date, public readonly quantidade: number, public readonly valor: number) {      
+        this._data = new Date(_data);
         this.quantidade = quantidade;
         this.valor = valor;
     }
@@ -11,7 +11,7 @@ export class Negociacao {
     }
 
     get data() {
-        return new Date(this._data.getTime());
+        return new Date(this._data);
     }
 
     ehIgual(negociacao: Negociacao) {

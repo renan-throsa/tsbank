@@ -22,6 +22,7 @@ class NegociacaoController {
     private _ordemAtual: string;
 
     constructor() {
+        
         this._ordemAtual = ''
         this._negociacaoService = new NegociacaoService();
 
@@ -34,20 +35,21 @@ class NegociacaoController {
         this._mensagem = new ProxyMensagem(new Mensagem(),
             (model: Mensagem) => { this._mensagemView.update(model) }
         );
-
+        
         this._negociacaoService
             .lista()
-            .then(negociacoes => {
+            .then(negociacoes => {                      
                 negociacoes.forEach(negociacao => {
                     this._negociacoes.adiciona(negociacao);
                 });
-            })
+            });
+            
     }
 
-    public adiciona(event: Event) {
+    public adiciona(event: Event): void {
 
         event.preventDefault();
-        let negociacao: any = this._criaNegociacao();
+        let negociacao: any = this._criaNegociacao();        
         if (negociacao) {
             this._negociacaoService
                 .cadastra(negociacao)
@@ -60,7 +62,7 @@ class NegociacaoController {
 
     }
 
-    public apaga() {
+    public apaga(): void {
         this._negociacaoService
             .apagaTudo()
             .then(memsagem => {
@@ -70,7 +72,7 @@ class NegociacaoController {
 
     }
 
-    public ordena(coluna: string) {
+    public ordena(coluna: string): void {
         if (this._ordemAtual == coluna) {
             this._negociacoes.ordena(function (a, b) {
                 return b[coluna] - a[coluna]
@@ -85,7 +87,7 @@ class NegociacaoController {
     }
 
     @throttle()
-    public importa() {        
+    public importa(): void {
         function isOK(res: Response) {
             if (res.ok) {
                 return res;
@@ -108,7 +110,7 @@ class NegociacaoController {
         }).then(negociacoes => {
             negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
             this._mensagem.setTexto("Negociações importadas com sucesso.")
-        }).catch((reason) => { console.log(reason)})
+        }).catch((reason) => { console.log(reason) })
 
     }
 
@@ -127,7 +129,7 @@ class NegociacaoController {
         }
 
     }
-    private _ehDiaUtil(data: Date) {
+    private _ehDiaUtil(data: Date): boolean {
         return data.getDay() != DiasDaSemana.Sabado && data.getDay() != DiasDaSemana.Domingo;
     }
 
@@ -141,6 +143,6 @@ class NegociacaoController {
 }
 
 const controller = new NegociacaoController();
-export function instanciaAtual() {
+export function instanciaAtual() {    
     return controller;
 }

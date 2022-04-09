@@ -3,8 +3,8 @@ export function throttle(milissegundos = 1000) {
         const metodoOriginal = descriptor.value;
         let timer = 0;
         descriptor.value = function (...args) {
-            if (event)
-                event.preventDefault();
+            if (window.event)
+                window.event.preventDefault();
             clearInterval(timer);
             timer = setTimeout(() => metodoOriginal.apply(this, args), milissegundos);
         };

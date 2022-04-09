@@ -32,7 +32,7 @@ export class NegociacaoDao {
                 let atual = alvo.result;
                 if (atual) {
                     let dado = atual.value;
-                    negociacoes.push(new Negociacao(dado.data, dado.quantidade, dado.valor));
+                    negociacoes.push(new Negociacao(dado._data, dado.quantidade, dado.valor));
                     atual.continue();
                 }
                 else {

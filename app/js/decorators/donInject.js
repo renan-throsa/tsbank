@@ -3,7 +3,6 @@ export function domInject(seletor) {
         let elemento;
         const getter = function () {
             if (!elemento) {
-                console.log(`buscando  ${seletor} para injetar em ${key}`);
                 elemento = document.querySelector(seletor);
             }
             return elemento;
